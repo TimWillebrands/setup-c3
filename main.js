@@ -10,14 +10,8 @@ const CANONICAL = 'https://github.com/c3lang/c3c/releases/download';
 
 async function downloadTarball(tarball_name, tarball_ext) {
   const url = `${CANONICAL}/${tarball_name}${tarball_ext}?source=github-actions`
-  console.log(`\turl: ${url}`)
+  core.info(`\turl: ${url}`)
   const tarball_path = await tc.downloadTool(url);
-  try {
-    const file = await fs.stat(tarball_path)
-      console.log('file', file.isFile(), file)
-  } catch (ex) {
-    console.warn(ex)
-  }
   return tarball_path
 }
 
@@ -68,6 +62,12 @@ async function main() {
         ? await tc.extractZip(tarball_path)
         : await tc.extractTar(tarball_path, null, 'x'); // J for xz
       core.info(`extract took ${Date.now() - extract_start} ms`);
+      core.info(`extracted '${tarball_path}' to '${zig_parent_dir}'`);
+
+      try {
+        const dir = await fs.readdir(zig_parent_dir)
+        for(const file of dir) core.info(`[File] ${file}`)
+      }catch(ex){core.warning(ex)}
 
       const zig_inner_dir = path.join(zig_parent_dir, tarball_name);
       zig_dir = await tc.cacheDir(zig_inner_dir, 'c3', await common.getVersion());
