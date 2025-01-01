@@ -1,5 +1,6 @@
 name: 'Setup C3 Compiler'
 description: 'Download and install the C3 compiler'
+icon: 'corner-down-right'
 inputs:
   version:
     description: 'Version of the C3 compiler, e.g. "v0.6.5". These must match the tags of the github C3 releases'
