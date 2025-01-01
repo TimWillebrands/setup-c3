@@ -27,4 +27,4 @@ The default is `latest`.
 ```
 
 ## Thanks
-Based on the work of this repo: [https://github.com/mlugg/setup-zig](setup-zig)
+Based on the work of this repo: [mrlugg's setup-zig](https://github.com/mlugg/setup-zig)
