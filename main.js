@@ -45,8 +45,8 @@ async function main() {
     //   less efficient, but still much preferable to fetching Zig from a mirror. We have this
     //   dependency anyway for caching the global Zig cache.
 
-    let zig_dir = tc.find('c3', await common.getVersion());
-    if (!zig_dir) {
+    let c3_dir = tc.find('c3', await common.getVersion());
+    if (!c3_dir) {
       const tarball_name = await common.getTarballName();
       const tarball_ext = await common.getTarballExt();
 
@@ -58,22 +58,17 @@ async function main() {
       core.info(`Extracting tarball ${tarball_name}${tarball_ext}`);
 
       const extract_start = Date.now();
-      const zig_parent_dir = tarball_ext === '.zip'
+      const c3_parent_dir = tarball_ext === '.zip'
         ? await tc.extractZip(tarball_path)
         : await tc.extractTar(tarball_path, null, 'x'); // J for xz
       core.info(`extract took ${Date.now() - extract_start} ms`);
-      core.info(`extracted '${tarball_path}' to '${zig_parent_dir}'`);
+      core.info(`extracted '${tarball_path}' to '${c3_parent_dir}'`);
 
-      try {
-        const dir = await fs.readdir(zig_parent_dir)
-        for(const file of dir) core.info(`[File] ${file}`)
-      }catch(ex){core.warning(ex)}
-
-      const zig_inner_dir = path.join(zig_parent_dir, tarball_name);
-      zig_dir = await tc.cacheDir(zig_inner_dir, 'c3', await common.getVersion());
+      const c3_inner_dir = path.join(c3_parent_dir, 'c3');
+      c3_dir = await tc.cacheDir(c3_inner_dir, 'c3', await common.getVersion());
     }
 
-    core.addPath(zig_dir);
+    core.addPath(c3_dir);
   } catch (err) {
     core.setFailed(err.message);
   }
