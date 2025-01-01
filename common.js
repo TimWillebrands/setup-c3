@@ -1,11 +1,6 @@
 const os = require('os');
 const path = require('path');
-const core = require('@actions/core');
 const github = require('@actions/github');
-const exec = require('@actions/exec');
-
-const VERSIONS_JSON = 'https://ziglang.org/download/index.json';
-const CACHE_PREFIX = "setup-c3-global-cache-";
 
 let _cached_version = null;
 async function getVersion() {
@@ -13,7 +8,7 @@ async function getVersion() {
     return _cached_version;
   }
 
-  _cached_version = raw;
+  _cached_version = core.getInput('version');
 
   return _cached_version;
 }
