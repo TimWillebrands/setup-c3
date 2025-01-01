@@ -9,7 +9,16 @@ const common = require('./common');
 const CANONICAL = 'https://github.com/c3lang/c3c/releases/download';
 
 async function downloadTarball(tarball_name, tarball_ext) {
-  const tarball_path = await tc.downloadTool(`${CANONICAL}/${tarball_name}${tarball_ext}?source=github-actions`);
+  const url = `${CANONICAL}/${tarball_name}${tarball_ext}?source=github-actions`
+  console.log(`\tDownload url: ${url}`)
+  const tarball_path = await tc.downloadTool(url);
+  const files = await fs.readdir(tarball_path)
+  try {
+    for(const file of files) 
+      console.log(file)
+  } catch (ex) {
+    console.warn(ex)
+  }
   return tarball_path
 }
 
