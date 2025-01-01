@@ -25,3 +25,6 @@ The default is `latest`.
     with:
       version: v0.6.5
 ```
+
+## Thanks
+Based on the work of this repo: [https://github.com/mlugg/setup-zig](setup-zig)
