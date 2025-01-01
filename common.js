@@ -1,6 +1,7 @@
 const os = require('os');
 const path = require('path');
 const github = require('@actions/github');
+const core = require('@actions/core');
 
 let _cached_version = null;
 async function getVersion() {
