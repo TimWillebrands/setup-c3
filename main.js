@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs').promises;
+const path = require('path')
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const cache = require('@actions/cache');
@@ -31,6 +32,12 @@ async function retrieveTarball(tarball_name, tarball_ext) {
 
   core.info(`Cache miss. Fetching C3 ${await common.getVersion()}`);
   const downloaded_path = await downloadTarball(tarball_name, tarball_ext);
+
+  const parent_dir = path.dirname(tarball_cache_path)
+    
+  // Ensure the parent directory exists
+  await fs.mkdir(parent_dir, { recursive: true });
+
   await fs.copyFile(downloaded_path, tarball_cache_path)
   await cache.saveCache([tarball_cache_path], cache_key);
   return tarball_cache_path;
