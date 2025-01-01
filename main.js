@@ -10,12 +10,11 @@ const CANONICAL = 'https://github.com/c3lang/c3c/releases/download';
 
 async function downloadTarball(tarball_name, tarball_ext) {
   const url = `${CANONICAL}/${tarball_name}${tarball_ext}?source=github-actions`
-  console.log(`\tDownload url: ${url}`)
+  console.log(`\turl: ${url}`)
   const tarball_path = await tc.downloadTool(url);
-  const files = await fs.readdir(tarball_path)
   try {
-    for(const file of files) 
-      console.log(file)
+    const file = await fs.stat(tarball_path)
+      console.log('file', file.isFile(), file)
   } catch (ex) {
     console.warn(ex)
   }
